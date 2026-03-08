@@ -1,0 +1,696 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg-obsidian: #0a0a0c;
+  --neon-blue: #4d94ff;
+  --neon-purple: #b366ff;
+  --stone-color: #1a1a1f;
+  --stone-hover: #2a2a33;
+  --gold: #ebd08c;
+  --glass-bg: rgba(20, 20, 25, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-obsidian);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  /* Dıştaki scroll'u kapatıyoruz, iç konteynere taşıdık */
+  margin: 0;
+}
+
+/* --- Home / Support Pages --- */
+.home-container, .support-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, rgba(18, 18, 22, 1) 0%, rgba(5, 5, 8, 1) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Home Arka Plan Animasyonlu Ölü Grid (Duvar Kağıdı) */
+.home-dummy-wrapper {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-15deg) scale(0.6); /* Hafif açılı geniş görünüm */
+  animation: bgPan 60s linear infinite alternate;
+}
+
+@keyframes bgPan {
+  0% { transform: rotate(-15deg) scale(0.6) translate(-50px, -50px); }
+  100% { transform: rotate(-15deg) scale(0.6) translate(50px, 50px); }
+}
+
+.home-dummy-grid {
+  display: grid;
+  grid-template-columns: repeat(40, 40px);
+  grid-template-rows: repeat(25, 40px);
+  gap: 6px;
+  opacity: 0.15; /* Sadece hafif bir doku, soluk */
+}
+
+.home-dummy-tombstone {
+  width: 100%;
+  height: 100%;
+  background: #121215;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 2px 2px 0px #050507;
+}
+
+.home-fog-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(10, 10, 12, 0) 20%, rgba(5, 5, 8, 1) 75%);
+  z-index: 1;
+}
+
+.home-content, .support-content {
+  text-align: center;
+  max-width: 800px;
+  padding: 60px;
+  background: rgba(10, 10, 12, 0.75);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+  backdrop-filter: blur(15px);
+  z-index: 2; /* Arkaplanın Üstünde */
+}
+
+/* RIPO Token Kartı Tanıtımı */
+.ripo-card {
+  margin-top: 40px;
+  background: rgba(20, 20, 25, 0.85);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(255, 215, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ripo-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 60%);
+  animation: rotateGlow 10s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotateGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.ripo-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.ripo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 25px rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.5);
+}
+
+.ripo-card-title {
+  color: #FFD700;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ripo-card-subtitle {
+  color: #fff;
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.ripo-card-desc {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Izgara Konteyneri ve İzometrik Görünüm */
+.necropolis-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: radial-gradient(circle at center, rgba(10, 10, 12, 1) 0%, rgba(2, 2, 3, 1) 100%);
+}
+
+.grid-wrapper {
+  position: relative;
+  /* Tamamen Düz (Kuşbakışı) 2D Modele Dönüş - Sütunlar Dik İner */
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  /* Hafif altın rengi parlayan sınır */
+  background: #08080a;
+  /* Koyu granit zemin */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+  /* Düz gölge */
+  padding: 10px;
+  width: max-content;
+  margin: 50px auto 120px auto; /* En alta scroll boşluğu eklendi */
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(40, 30px);
+  grid-template-rows: repeat(25, 30px);
+  gap: 4px;
+  /* İzometrikte biraz daha ayrık dursunlar */
+}
+
+/* Mezar Taşları (Kutucuklar) */
+.tombstone {
+  width: 100%;
+  height: 100%;
+  background: #121215;
+  /* Obsidyen mat karo */
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  /* İnce altın grid çizgisi */
+  /* Top-Down 3D Buton Kalınlığı (Derinlik) */
+  box-shadow:
+    2px 2px 0px #050507,
+    -1px -1px 0px rgba(255, 215, 0, 0.1) inset;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease;
+  position: relative;
+  /* Kusursuz Hizalama İçin Flexbox */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.tombstone:hover {
+  background: rgba(255, 215, 0, 0.1);
+  /* Hover'da hafif altın ışıltı */
+  border-color: rgba(255, 215, 0, 0.6);
+  transform: translateY(-3px) translateX(-3px);
+  /* 2D Üzerinde havaya kalksın */
+  box-shadow:
+    5px 5px 0px #050507,
+    -2px -2px 10px rgba(255, 215, 0, 0.2);
+}
+
+.tombstone.selected {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.9);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.tombstone.saved {
+  background: #2a2a35;
+}
+
+/* VIP ($1000) Özel Anıt Kutucuğu - Kırmızı Parlama (Kızıl Yakut) */
+.tombstone.premium-red {
+  background: #2b0b10;
+  border-color: rgba(255, 50, 50, 0.4);
+}
+
+.tombstone.premium-red:hover {
+  background: rgba(255, 50, 50, 0.15);
+  border-color: rgba(255, 50, 50, 0.9);
+  box-shadow: 
+    5px 5px 0px #050507,
+    -2px -2px 15px rgba(255, 50, 50, 0.4);
+}
+
+.tomb-icon {
+  /* Tüm Absolute/Transform hileleri siliyoruz, tamamen flex'e bırakıyoruz */
+  width: 85%;
+  height: 85%;
+  user-select: none;
+  pointer-events: none;
+  /* İçi oyulmuş veya yüzeye çizilmiş gibi görünmesi için flat rendering */
+  opacity: 0.9;
+}
+
+/* Glassmorphism Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #1a1a1e;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  /* Panel kenarları da hafif altın */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  padding: 30px;
+  border-radius: 4px;
+  /* Keskin düz hatlar */
+  width: 90%;
+  max-width: 450px;
+  color: #fff;
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.close-btn:hover {
+  opacity: 1;
+}
+
+.stone-options-title {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.stone-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stone-option {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stone-option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stone-option.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(235, 208, 140, 0.2);
+}
+
+.stone-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.stone-option:hover .stone-icon {
+  transform: scale(1.1);
+}
+
+.stone-option.selected .stone-icon,
+.stone-option.selected .stone-label {
+  color: var(--gold);
+}
+
+.stone-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.stone-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #4ade80; /* Parayı temsil eden parlak yeşil */
+  margin-top: 5px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(74, 222, 128, 0.4);
+}
+
+.stone-option.selected .stone-price {
+  color: #FFD700; /* Seçildiğinde Altın rengine dönsün */
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* --- Token Selection Toggle --- */
+.token-selection {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.token-toggle {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.token-btn {
+  flex: 1;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  color: #A0AEC0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.token-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  color: #FFD700;
+}
+
+.token-btn.active {
+  background: linear-gradient(to right, #B8860B, #FFD700);
+  color: #111;
+  border-color: #FFD700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #aaa;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.form-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(to bottom, #cfb162, #a68430);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 15px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(235, 208, 140, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* --- Home / Support Pages --- */
+.app-root {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(10, 10, 12, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+  z-index: 100;
+  flex-shrink: 0;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.navbar-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #FFD700;
+  font-weight: bold;
+  cursor: pointer;
+  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: #A0AEC0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  letter-spacing: 1px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.home-container, .support-container, .about-container, .faq-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, rgba(18, 18, 22, 1) 0%, rgba(5, 5, 8, 1) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Home Arka Plan Animasyonlu Ölü Grid (Duvar Kağıdı) */
+.home-dummy-wrapper {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-15deg) scale(0.6);
+  animation: bgPan 60s linear infinite alternate;
+}
+
+@keyframes bgPan {
+  0% { transform: rotate(-15deg) scale(0.6) translate(-50px, -50px); }
+  100% { transform: rotate(-15deg) scale(0.6) translate(50px, 50px); }
+}
+
+.home-dummy-grid {
+  display: grid;
+  grid-template-columns: repeat(40, 40px);
+  grid-template-rows: repeat(25, 40px);
+  gap: 6px;
+  opacity: 0.15;
+}
+
+.home-dummy-tombstone {
+  width: 100%;
+  height: 100%;
+  background: #121215;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 2px 2px 0px #050507;
+}
+
+.home-fog-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(10, 10, 12, 0) 20%, rgba(5, 5, 8, 1) 75%);
+  z-index: 1;
+}
+
+.home-content, .support-content, .about-content, .faq-content {
+  text-align: center;
+  max-width: 800px;
+  padding: 60px;
+  background: rgba(10, 10, 12, 0.75);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+  backdrop-filter: blur(15px);
+  z-index: 2;
+}
+
+.home-title, .support-title, .about-title, .faq-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  color: #FFD700;
+  margin-bottom: 20px;
+  text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+  letter-spacing: 5px;
+}
+
+.home-subtitle, .support-text, .about-text, .faq-text {
+  font-size: 1.3rem;
+  color: #cbd5e1;
+  margin-bottom: 50px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.home-btn, .support-btn {
+  display: inline-block;
+  background: linear-gradient(to right, #B8860B, #FFD700);
+  color: #111;
+  padding: 18px 45px;
+  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+}
+
+.home-btn:hover, .support-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+  filter: brightness(1.2);
+}
+
+/* --- Solana Wallet --- */
+.wallet-btn-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Varsayılan mor wallet-adapter butonunu eziyoruz (Override) */
+.wallet-adapter-button-trigger, .solana-wallet-btn {
+  background: linear-gradient(to right, #B8860B, #FFD700) !important;
+  color: #111 !important;
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  height: 48px !important;
+  padding: 0 25px !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2) !important;
+}
+
+.wallet-adapter-button-trigger:hover, .solana-wallet-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4) !important;
+  background: linear-gradient(to right, #cfb162, #ffe44d) !important;
+}
